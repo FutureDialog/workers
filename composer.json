@@ -1,5 +1,5 @@
 {
-"name": "futuredialog/pushworkers",
+"name": "midealab/pushworkers",
     "description": "Push workers",
     "version": "1.0.0",
     "require": {
@@ -13,7 +13,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Futuredialog\\PushWorker\\": "src/"
+            "Midealab\\PushWorker\\": "src/"
         }
     }
 }
