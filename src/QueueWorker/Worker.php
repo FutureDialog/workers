@@ -1,5 +1,6 @@
 <?php
 namespace Futuredialog\PushWorker\QueueWorker;
+use Futuredialog\PushWorker\Loggers\HealthCheckFileLogger;
 use Futuredialog\PushWorker\QueueWorker\Exceptions\WorkerAbortExeption;
 use Futuredialog\PushWorker\QueueWorker\Exceptions\WorkerReplicatedExeption;
 use Futuredialog\PushWorker\QueueWorker\Exceptions\WorkerRetryExeption;
@@ -366,13 +367,15 @@ abstract class Worker implements WorkerInterface
 		}
 		$this->_client->watch();
 		while(TRUE) {
-			$job = $this->_client->reserveJob();
+            $this->healthCheckLog();
+			$job = $this->_client->reserveJob(30);
 			if($job === false) {
 				sleep(Worker::SLEEP_CYCLE);
 				continue;
 			};
 			$this->_assignJob();
 			$this->processJob($job_func);
+			
 		}
 	}
 
@@ -450,5 +453,11 @@ abstract class Worker implements WorkerInterface
 		$this->notify('Job Completed', 'Job '.$job_id.' completed', 'good');
 		$this->doneJob();
 	}
+
+	private function healthCheckLog()
+    {
+        $logger = new HealthCheckFileLogger();
+        $logger->healthCheckLog();
+    }
 	
 }
