@@ -145,34 +145,20 @@ abstract class Worker implements WorkerInterface
 	 */
 	protected function notify($message, $text, $color = 'warning', $show_stats = true)
 	{
-		$job_platform = isset($this->_settings['platform']) ? $this->_settings['platform'] : null;
 
-		$helper = new JobDebugHelper($job_platform, $this->job_data, $this->_successData, $this->_failData);
-		$job_env = $helper->getJobEnv();
-		
-		switch ($job_env) {
-			case 'dev':
-				$slack_channel = getenv('SLACK_CHANNEL_DEV');
-				break;
-			case 'stage':
-				$slack_channel = getenv('SLACK_CHANNEL_STAGE');
-				break;
-			case 'prod':
-				$slack_channel = getenv('SLACK_CHANNEL_PROD');
-				break;
-			default:
-				$slack_channel = getenv('SLACK_CHANNEL_DEFAULT');
-				break;
-		}
+		$slack_channel = getenv('SLACK_CHANNEL');
 		
 		if(!$slack_channel) {
 			return;
 		}
 
+		$job_platform = isset($this->_settings['platform']) ? $this->_settings['platform'] : null;
+
 		$slack = new SlackNotificationClient($slack_channel, [
 			'username' => (isset($this->_settings['slack_username'])) ? $this->_settings['slack_username'] : 'Worker',
 		]);
-
+		
+		$helper = new JobDebugHelper($job_platform, $this->job_data, $this->_successData, $this->_failData);
 		
 		
 		$attachment = [
