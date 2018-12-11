@@ -49,7 +49,7 @@ class EmailWorker extends Worker
         if (!isset($data['recipients']) || !is_array($data['recipients'])) {
             $this->abort('Wrong recipients format');
         }
-        if (!isset($data['company_id']) || !isset($data['title']) || !isset($data['from'])|| !isset($data['type'])  ) {
+        if (!isset($data['company_id']) || !isset($data['from'])|| !isset($data['type'])  ) {
             $this->abort('Wrong job format');
         }
         return $data;
