@@ -115,7 +115,7 @@ abstract class Worker implements WorkerInterface
      * @param \Exception $e
      * @throws \Exception
      */
-	protected function logError(\Exception $e)
+	public function logError(\Exception $e)
 	{
 		error_log(date('Y-m-d h:i:s').' Caught '.get_class($e).' '.$e->getMessage()."\n".$e->getTraceAsString());
 		if($this->_mode === self::DEBUG_MODE_ON) {
@@ -128,7 +128,7 @@ abstract class Worker implements WorkerInterface
 	 * @param string|array $data
 	 * @return void
 	 */
-	protected function logData($message, $data)
+	public function logData($message, $data)
 	{
 		if(is_array($data)) {
 			$data = json_encode($data);
@@ -143,7 +143,7 @@ abstract class Worker implements WorkerInterface
 	 * @param string $text
 	 * @param string $color
 	 */
-	protected function notify($message, $text, $color = 'warning', $show_stats = true)
+	public function notify($message, $text, $color = 'warning', $show_stats = true)
 	{
 
 		$slack_channel = getenv('SLACK_CHANNEL');
@@ -292,7 +292,7 @@ abstract class Worker implements WorkerInterface
 	/**
 	 * @return void
 	 */
-	protected function buryJob()
+	public function buryJob()
 	{
 		$this->_client->buryJob();
 		$this->_resetState();
