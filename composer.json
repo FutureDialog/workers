@@ -4,7 +4,6 @@
     "version": "1.0.0",
     "require": {
         "pda/pheanstalk": "^3.1",
-        "duccio/apns-php": "^1.0",
         "vlucas/phpdotenv": "^2.4",
         "paragraph1/php-fcm": "^0.7.0",
         "maknz/slack": "^1.7",
